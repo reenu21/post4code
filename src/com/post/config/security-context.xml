@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="reenu21" authorities="admin" password="1234" />
+			</security:user-service>
+		</security:authentication-provider>
+		<security:authentication-provider>
+			<security:jdbc-user-service data-source-ref="dataSource" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<security:http>
+		<security:form-login login-page="/login"
+			authentication-failure-url="/login?status=false" />
+		<security:intercept-url access="permitAll" pattern="/" />
+		<security:intercept-url access="permitAll" pattern="/home" />
+		<security:intercept-url access="permitAll" pattern="/login" />
+		<security:intercept-url access="permitAll" pattern="/sign-up" />
+		<security:intercept-url access="permitAll" pattern="/showQuestions" />
+		<security:intercept-url access="isAuthenticated()" pattern="/postAnswer" />
+		<security:intercept-url access="isAuthenticated()" pattern="/postQuestion" />
+		<security:intercept-url access="isAuthenticated()" pattern="/submitAnswer" />
+		<security:intercept-url access="isAuthenticated()" pattern="/submitQuestion" />
+		<security:intercept-url access="isAuthenticated()" pattern="/feedback" />
+		<security:intercept-url access="isAuthenticated()" pattern="/myQuestions" />
+		<security:intercept-url access="isAuthenticated()" pattern="/myAnswers" />
+		<security:intercept-url access="isAuthenticated()" pattern="/like" />
+		<security:intercept-url access="isAuthenticated()" pattern="/dislike" />
+		<security:intercept-url access="isAuthenticated()" pattern="/suggestion" />
+		<security:intercept-url access="isAuthenticated()" pattern="/feedback" />
+		<security:intercept-url access="isAuthenticated()" pattern="/submitFeedback" />
+		<security:intercept-url access="hasAuthority('admin')" pattern="/admin" />
+		<security:intercept-url access="hasAuthority('admin')" pattern="/add-category" />
+		<security:intercept-url access="denyAll" pattern="/**" />
+		<security:csrf disabled="true" />
+		<security:logout logout-success-url="/login?action=logout" />
+	</security:http>
+</beans>
